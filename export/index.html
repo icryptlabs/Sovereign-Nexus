@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N17 Alpha Sovereign HUD</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cards.css">
+    <!-- Include Lucide icons via unpkg -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Include Chart.js for the sparkline graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="stealth-mundane">
+    <div class="scanline"></div>
+    
+    <div class="hud-container">
+        <!-- Header -->
+        <header class="glass-panel header">
+            <div class="header-left">
+                <h1 class="glitch-text" data-text="N17_ALPHA_HUD">N17_ALPHA_HUD</h1>
+                <div class="divider"></div>
+                <span class="version">v2.0.1</span>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="status-label">STATUS:</span>
+                    <span class="status-value" id="system-status">STEALTH_MUNDANE</span>
+                </div>
+                <div class="status-dots">
+                    <div class="dot dot-stealth active"></div>
+                    <div class="dot dot-alert"></div>
+                    <div class="dot dot-ghost"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- News Ticker -->
+        <div class="glass-panel news-ticker">
+            <div class="ticker-label">
+                <i data-lucide="radio" class="pulse"></i>
+                <span>LATTICE_FEED</span>
+            </div>
+            <div class="ticker-content">
+                <div class="ticker-scroll" id="ticker-scroll">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <main class="main-grid">
+            <!-- SVU Ledger Card -->
+            <div class="glass-panel card ledger-card">
+                <div class="card-glow"></div>
+                <div class="card-header">
+                    <div class="card-title">
+                        <i data-lucide="database"></i>
+                        <span>SVU_LEDGER</span>
+                    </div>
+                    <div class="live-badge">LIVE</div>
+                </div>
+                <div class="card-body ledger-body">
+                    <div class="ledger-value">14,204.<span class="decimals">89</span></div>
+                    <div class="ledger-change">
+                        <i data-lucide="arrow-up-right"></i>
+                        <span>+2.4% (24h)</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="ledgerChart"></canvas>
+                </div>
+                <div class="card-footer">
+                    <span>AGENT: ledger.php</span>
+                    <span class="sync-status"><i data-lucide="activity" class="pulse"></i> SYNCED</span>
+                </div>
+            </div>
+
+            <!-- Mesh Network Map -->
+            <div class="glass-panel card network-card span-2">
+                <div class="card-header z-10">
+                    <div class="card-title">
+                        <i data-lucide="network"></i>
+                        <span>MESH_NETWORK_TOPOLOGY</span>
+                    </div>
+                    <div class="stability-badge">
+                        <i data-lucide="signal"></i> 94.2% STABILITY
+                    </div>
+                </div>
+                <div class="network-map-container" id="network-map">
+                    <div class="grid-bg"></div>
+                    <svg class="network-svg" id="network-svg"></svg>
+                    <div id="network-nodes"></div>
+                </div>
+                <div class="card-footer">
+                    <span>AGENT: discover.php</span>
+                    <span class="routing-status"><i data-lucide="zap"></i> ROUTING OPTIMIZED</span>
+                </div>
+            </div>
+
+            <!-- Arbiter Console -->
+            <div class="glass-panel card console-card">
+                <div class="card-header z-10">
+                    <div class="card-title">
+                        <i data-lucide="terminal"></i>
+                        <span>ARBITER_CONSOLE</span>
+                    </div>
+                    <i data-lucide="shield-alert" class="dim-icon"></i>
+                </div>
+                <div class="console-output crt-flicker" id="console-output">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="card-footer">
+                    <span>AGENT: arbiter.py</span>
+                    <span>AWAITING_CMD</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="glass-panel footer">
+            <div class="controls-info">
+                <span>[ALT+S] TOGGLE_STEALTH</span>
+                <span>[ALT+Q] TRIGGER_QUARANTINE</span>
+            </div>
+            <div class="sys-time" id="sys-time">
+                SYS_TIME: 00:00:00Z
+            </div>
+        </footer>
+    </div>
+
+    <!-- Quarantine Modal -->
+    <div class="modal-overlay hidden" id="quarantine-modal">
+        <div class="glass-panel modal-content">
+            <div class="modal-header">
+                <i data-lucide="alert-octagon" class="pulse"></i>
+                <h2>QUARANTINE PROTOCOL</h2>
+            </div>
+            <p class="modal-body">
+                WARNING: Initiating quarantine will isolate the current node from the Sovereign Nexus. 
+                All active connections will be severed. Do you wish to proceed?
+            </p>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="btn-cancel-quarantine">CANCEL</button>
+                <button class="btn-authorize" id="btn-authorize-quarantine">AUTHORIZE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ghost Wipe Overlay -->
+    <div class="ghost-wipe-overlay hidden" id="ghost-wipe"></div>
+
+    <script src="nexus-core.js"></script>
+</body>
+</html>
